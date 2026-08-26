@@ -5,6 +5,7 @@ import sys
 
 from osint_tool.dns_lookup import get_dns_records
 from osint_tool.header_analyzer import analyze_headers
+from osint_tool.report_writer import render_html_report
 from osint_tool.shodan_lookup import get_shodan_info
 from osint_tool.subdomain_finder import find_subdomains
 from osint_tool.whois_lookup import get_whois_info
@@ -83,6 +84,11 @@ def main(argv: list[str] | None = None) -> int:
             "definida via variável de ambiente SHODAN_API_KEY."
         ),
     )
+    parser.add_argument(
+        "--html-output",
+        metavar="PATH",
+        help="Salva o relatório também em formato HTML no caminho informado.",
+    )
     args = parser.parse_args(argv)
 
     report = build_report(args.domain, shodan_api_key=args.shodan_key)
@@ -91,6 +97,11 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(report, indent=2, ensure_ascii=False))
     else:
         print_text_report(report)
+
+    if args.html_output:
+        with open(args.html_output, "w", encoding="utf-8") as html_file:
+            html_file.write(render_html_report(report))
+        print(f"\nRelatório HTML salvo em: {args.html_output}")
 
     return 0
 
