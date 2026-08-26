@@ -1,5 +1,7 @@
 from unittest.mock import Mock, patch
 
+import requests
+
 from osint_tool.subdomain_finder import find_subdomains
 
 
@@ -24,6 +26,16 @@ def test_find_subdomains_returns_empty_list_when_no_entries():
     fake_response.raise_for_status = Mock()
 
     with patch("osint_tool.subdomain_finder.requests.get", return_value=fake_response):
+        result = find_subdomains("exemplo.com")
+
+    assert result == []
+
+
+def test_find_subdomains_returns_empty_list_on_timeout():
+    with patch(
+        "osint_tool.subdomain_finder.requests.get",
+        side_effect=requests.exceptions.ReadTimeout("timed out"),
+    ):
         result = find_subdomains("exemplo.com")
 
     assert result == []
