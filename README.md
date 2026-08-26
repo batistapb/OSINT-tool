@@ -23,6 +23,15 @@ pip install -r requirements.txt
 python -m osint_tool.cli exemplo.com
 ```
 
+Opcionalmente, enriqueça o relatório com dados de infraestrutura do [Shodan](https://www.shodan.io/) (requer uma API key gratuita) do primeiro IP encontrado via DNS:
+
+```bash
+python -m osint_tool.cli exemplo.com --shodan-key SUA_API_KEY
+# ou
+export SHODAN_API_KEY=SUA_API_KEY
+python -m osint_tool.cli exemplo.com
+```
+
 ## Testes
 
 ```bash
