@@ -32,6 +32,12 @@ export SHODAN_API_KEY=SUA_API_KEY
 python -m osint_tool.cli exemplo.com
 ```
 
+Também é possível salvar o relatório em um arquivo HTML:
+
+```bash
+python -m osint_tool.cli exemplo.com --html-output relatorio.html
+```
+
 ## Testes
 
 ```bash
